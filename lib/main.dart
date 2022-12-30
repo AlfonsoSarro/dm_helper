@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'widgets.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,8 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset('assets/images/Logo.png'),
-            myTextField("Username"),
-            myPassField("Password"),
+            const CustomTextField("Username", false),
+            const CustomTextField("Password", true),
             ButtonBar(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -61,70 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
       )
     );
   }
-}
-
-
-Widget myTextField(String hint) {
-  return Padding(
-      padding: const EdgeInsets.only(
-        left: 40,
-        top: 12,
-        right: 40,
-        bottom: 12,
-      ),
-    child: TextField(
-        style: const TextStyle(
-            color: Colors.white
-        ),
-
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(
-              left: 20,
-            right: 20
-          ),
-        filled: true,
-        fillColor: const Color.fromRGBO(0, 0, 0, 0.56),
-        hintStyle: const TextStyle(color: Colors.white),
-        hintText: hint,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(50),
-        )
-  )
-    )
-  );
-}
-
-Widget myPassField(String hint) {
-  return Padding(
-      padding: const EdgeInsets.only(
-        left: 40,
-        top: 12,
-        right: 40,
-        bottom: 12,
-      ),
-      child: TextField(
-          style: const TextStyle(
-              color: Colors.white
-          ),
-
-          obscureText: true,
-          decoration: InputDecoration(
-              contentPadding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20
-              ),
-              filled: true,
-              fillColor: const Color.fromRGBO(0, 0, 0, 0.56),
-              hintStyle: const TextStyle(color: Colors.white),
-              hintText: hint,
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(50),
-              )
-          )
-      )
-  );
 }
 
 Widget myFilledButton(String label) {
