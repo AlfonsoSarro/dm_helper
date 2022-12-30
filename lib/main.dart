@@ -48,11 +48,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Image.asset('assets/images/Logo.png'),
             const CustomTextField("Username", false),
             const CustomTextField("Password", true),
-            ButtonBar(
+            const ButtonBar(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  myFilledButton('Login'),
-                  normalButton('Register'),
+                  FilledButton('Login', Color(0xe5ffd700), Color(0xFF000000)),
+                  FilledButton('Register', Color.fromRGBO(0, 0, 0, 0.56), Color(0xFFFFFFFF)),
                   ]
             )
           ],
@@ -62,49 +62,4 @@ class _MyHomePageState extends State<MyHomePage> {
       )
     );
   }
-}
-
-Widget myFilledButton(String label) {
-  return TextButton(
-    onPressed: () { },
-    style: ButtonStyle(
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          )
-      ),
-      backgroundColor: MaterialStateProperty.all(const Color(0xe5ffd700)),
-    ),
-    child: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.black,
-      fontFamily: 'blackchancery',
-
-      ),
-    ),
-  );
-}
-
-Widget normalButton(String label) {
-  return TextButton(
-
-    onPressed: () { },
-    style: ButtonStyle(
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-          )
-      ),
-      backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(0, 0, 0, 0.56)),
-    ),
-    child: Text(
-      label,
-      style: const TextStyle(
-        color: Colors.white,
-        fontFamily: 'blackchancery',
-
-      ),
-    ),
-  );
 }

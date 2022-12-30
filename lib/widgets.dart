@@ -40,3 +40,33 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
+class FilledButton extends StatelessWidget {
+  final String text;
+  final Color colorBack;
+  final Color? colorText;
+
+  const FilledButton(this.text, this.colorBack, this.colorText, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () { },
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            )
+        ),
+        backgroundColor: MaterialStateProperty.all(colorBack),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: colorText,
+          fontFamily: 'blackchancery',
+
+        ),
+      ),
+    );
+  }
+}
