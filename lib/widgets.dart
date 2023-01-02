@@ -1,3 +1,4 @@
+import 'package:dm_helper/register.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -50,7 +51,9 @@ class FilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () { },
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterPage()));
+      },
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
