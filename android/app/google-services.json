@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "582257432397",
+    "project_id": "dmhelper-1aa5d",
+    "storage_bucket": "dmhelper-1aa5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582257432397:android:05e252e362ec9a2af0c904",
+        "android_client_info": {
+          "package_name": "com.example.dm_helper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582257432397-hl7pe0bdv8g0c2b756cj1irs87eo84t7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWGQCuHhNF0o4qVAYycN0jvBHWCsR8XlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582257432397-hl7pe0bdv8g0c2b756cj1irs87eo84t7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
