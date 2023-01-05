@@ -26,7 +26,7 @@ class FilledButton extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => pageToShow));
         }
         else {
-          callback;
+          callback!();
         }
       },
       style: ButtonStyle(
