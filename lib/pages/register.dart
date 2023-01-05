@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'widgets.dart';
+import '../widgets/filled_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +30,11 @@ class RegisterPage extends StatelessWidget {
                 const ButtonBar(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      FilledButton(
-                          'Register', Color(0xe5ffd700), Color(0xFF000000)),
+                      FilledButton(text: 'Register',
+                        colorBack: Color(0xe5ffd700),
+                        colorText: Color(0xFF000000),
+                        callback: null,
+                      )
                     ]
                 )
               ],
