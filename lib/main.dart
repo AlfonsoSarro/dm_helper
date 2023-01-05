@@ -1,3 +1,4 @@
+import 'package:dm_helper/pages/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(title: 'Flutter Demo Home Page'),
+      //home: const LoginPage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
     );
   }
 }
