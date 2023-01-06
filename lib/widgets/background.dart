@@ -3,6 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
+  Widget? child;
+  String title;
+
+  Background({Key? key, required this.title, this.child}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -30,7 +35,7 @@ class Background extends StatelessWidget {
             backgroundColor: Color.fromARGB(160, 0, 0, 0),
             centerTitle: true,
             foregroundColor: Colors.white,
-            title: Text("Title",
+            title: Text(title,
               style: TextStyle(
                 fontFamily: 'blackchancery',
                 fontSize: 40

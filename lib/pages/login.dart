@@ -5,8 +5,7 @@ import '../widgets/custom_text_field.dart';
 import 'register.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
-  final String title;
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPage();

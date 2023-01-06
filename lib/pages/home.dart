@@ -15,7 +15,7 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Background(),
+        Background(title: "Sessions",),
         LoadingScreen(visible: false,),
       ],
     );

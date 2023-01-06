@@ -14,7 +14,7 @@ class FilledButton extends StatelessWidget {
     required this.text,
     this.colorBack = Colors.white,
     this.colorText = Colors.black,
-    this.pageToShow = const LoginPage(title: 'Flutter Demo Home Page'),
+    this.pageToShow = const LoginPage(),
     this.callback,
   }) : super(key: key);
 
