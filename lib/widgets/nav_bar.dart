@@ -1,7 +1,36 @@
+import 'package:dm_helper/pages/home.dart';
+import 'package:dm_helper/pages/new_session.dart';
+import 'package:dm_helper/pages/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NavBar extends StatelessWidget {
+
+  void navigateHome(BuildContext context) {
+    Navigator.pushReplacement<void, void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const HomePage(),
+      ),
+    );
+  }
+  void navigateNewSession(BuildContext context) {
+    Navigator.pushReplacement<void, void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const NewSessionPage(),
+      ),
+    );
+  }
+  void navigateProfile(BuildContext context) {
+    Navigator.pushReplacement<void, void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const ProfilePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,8 +54,9 @@ class NavBar extends StatelessWidget {
                 width: 60,
                 height: 60,
                 child: IconButton(
-                  //TODO add route to the Home page
-                    onPressed: () {},
+                    onPressed: () {
+                      navigateHome(context);
+                    },
                     icon: Image.asset("assets/images/Castle.png",)
                 ),
               ),
@@ -34,8 +64,9 @@ class NavBar extends StatelessWidget {
                 width: 70,
                 height: 70,
                 child: IconButton(
-                  //TODO add route to add session page
-                    onPressed: () {},
+                    onPressed: () {
+                      navigateNewSession(context);
+                    },
                     icon: Image.asset("assets/images/AddSession.png",)
                 ),
               ),
@@ -43,8 +74,9 @@ class NavBar extends StatelessWidget {
                 width: 60,
                 height: 60,
                 child: IconButton(
-                  //TODO add route to profile
-                    onPressed: () {},
+                    onPressed: () {
+                      navigateProfile(context);
+                    },
                     icon: Image.asset("assets/images/Knight.png",)
                 ),
               ),
