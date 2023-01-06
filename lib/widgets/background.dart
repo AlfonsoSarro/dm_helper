@@ -42,7 +42,7 @@ class Background extends StatelessWidget {
               ),
             ),
           ),
-          body: Text("Body"),
+          body: child,
           bottomNavigationBar: NavBar(),
         )
       ],
