@@ -10,7 +10,6 @@ import 'package:dm_helper/widgets/loading_screen.dart';
 import 'package:dm_helper/widgets/section_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
 
 import '../widgets/map_element.dart';
