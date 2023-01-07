@@ -3,16 +3,18 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:dm_helper/control/rect_clip.dart';
 import 'package:dm_helper/data/vec2.dart';
 import 'package:dm_helper/widgets/background.dart';
 import 'package:dm_helper/widgets/loading_screen.dart';
 import 'package:dm_helper/widgets/section_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:image/image.dart' as flutt;
 import 'dart:ui' as ui;
+import 'package:image/image.dart' as img;
 
 import '../widgets/map_element.dart';
+import '../control/image_functions.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -22,11 +24,14 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPage extends State<MapPage> {
-  String mapPath = "assets/maps/RoadMap.png";
+  String mapPath = "assets/maps/RoadMapLow.png";
   Vec2 maxTiles = new Vec2(30, 30);
   Vec2 dispTiles = new Vec2(5, 9);
   Vec2 point = new Vec2(0,0);
-  ui.Image? mapBackground;
+  late DVec2 tileSize;
+  img.Image? mapBackground;
+  Uint8List? dispImage;
+  late ui.Image displayImage;
   bool doneLoading = false;
   int sensitivity = 10;
   List<int> counter = [0,0,0,0];
@@ -44,27 +49,13 @@ class _MapPage extends State<MapPage> {
     return out;
   }
 
-  Future<ui.Image> loadImage(Uint8List img) async {
-    final Completer<ui.Image> completer = new Completer();
-    ui.decodeImageFromList(img, (ui.Image img) {
-      return completer.complete(img);
-    });
-    return completer.future;
-  }
-
-  Future<ui.Image> setImage() async {
-    ByteData data = await rootBundle.load(mapPath);
-    //ui.Image out = await decodeImageFromList(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-    ui.Image out = await loadImage(new Uint8List.view(data.buffer));
-    return out;
-  }
-
-  void initialSetup() {
-    setImage().then((value) {
+  void initialSetup(BuildContext context) {
+    ImageFunctions.decodeAsset(mapPath).then((value) {
       mapBackground = value;
-      setState(() {
-        doneLoading = true;
-      });
+      if (value != null) {
+        tileSize = new DVec2(value.width / (maxTiles.x), value.height / (maxTiles.y));
+        createNewCrop(value, context);
+      }
     });
     for (int i = 0; i < maxTiles.x; i++) {
       mapData.add([]);
@@ -76,8 +67,13 @@ class _MapPage extends State<MapPage> {
 
   Widget showImage() {
     if (this.doneLoading) {
+      /*return CustomPaint(
+        child: Container(),
+        painter: ImageEditor(image: mapBackground!, point: point, maxTiles: maxTiles, dispSize: dispTiles)
+      );*/
+      //return Image.memory(dispImage!);
       return CustomPaint(
-        painter: ImageEditor(image: mapBackground!, point: point, maxTiles: maxTiles)
+        painter: UiImagePaint(image: displayImage!),
       );
     }
     else {
@@ -94,9 +90,36 @@ class _MapPage extends State<MapPage> {
     return false;
   }
 
+  void createNewCrop(img.Image image, BuildContext context) async{
+    img.Image tmp = img.copyCrop(image,
+        x: (point.x * tileSize.x).floor(),
+        y: (point.y * tileSize.y).floor(),
+        width: (dispTiles.x * tileSize.x).floor(),
+        height: (dispTiles.y * tileSize.y).floor()
+    );
+
+    tmp = img.copyResize(tmp, width: MediaQuery.of(context).size.width.floor());
+    
+    //img.Image tmp = img.copyCrop(image, x: 0, y: 0, width: 100, height: 100);
+
+    ImageFunctions.convertImageToFlutterUi(tmp).then((value) {
+      setState(() {
+        //dispImage = Uint8List.view(pngBytes!.buffer);
+        displayImage = value;
+        doneLoading = true;
+      });
+    });
+    //final pngBytes = await tmp2.toByteData(format: ImageByteFormat.png);
+    /*setState(() {
+      //dispImage = Uint8List.view(pngBytes!.buffer);
+      displayImage = tmp2;
+      doneLoading = true;
+    });*/
+  }
+
   @override
   Widget build(BuildContext context) {
-    initialSetup();
+    initialSetup(context);
     return Stack(
       children: <Widget>[
         Background(

@@ -41,7 +41,7 @@ class NavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: Color.fromARGB(160, 0, 0, 0),
+        color: Color.fromARGB(255, 0, 0, 0),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
