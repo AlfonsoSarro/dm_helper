@@ -9,25 +9,31 @@ class NavBar extends StatelessWidget {
   void navigateHome(BuildContext context) {
     Navigator.pushReplacement<void, void>(
       context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const HomePage(),
-      ),
+      PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) => const HomePage(),
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+      )
     );
   }
   void navigateNewSession(BuildContext context) {
     Navigator.pushReplacement<void, void>(
       context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const NewSessionPage(),
-      ),
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => const NewSessionPage(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      )
     );
   }
   void navigateProfile(BuildContext context) {
     Navigator.pushReplacement<void, void>(
       context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const ProfilePage(),
-      ),
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => const ProfilePage(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      )
     );
   }
 
