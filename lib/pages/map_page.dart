@@ -35,6 +35,7 @@ class _MapPage extends State<MapPage> {
   bool doneLoading = false;
   int sensitivity = 10;
   List<int> counter = [0,0,0,0];
+  bool setupDone = false;
 
   List<List<Widget>> mapData = [];
 
@@ -50,18 +51,25 @@ class _MapPage extends State<MapPage> {
   }
 
   void initialSetup(BuildContext context) {
-    ImageFunctions.decodeAsset(mapPath).then((value) {
-      mapBackground = value;
-      if (value != null) {
-        tileSize = new DVec2(value.width / (maxTiles.x), value.height / (maxTiles.y));
-        createNewCrop(value, context);
+    if (this.setupDone) {
+      ImageFunctions.decodeAsset(mapPath).then((value) {
+        mapBackground = value;
+        if (value != null) {
+          tileSize =
+          new DVec2(value.width / (maxTiles.x), value.height / (maxTiles.y));
+          createNewCrop(value, context);
+          setupDone = true;
+        }
+      });
+      for (int i = 0; i < maxTiles.x; i++) {
+        mapData.add([]);
+        for (int j = 0; j < maxTiles.y; j++) {
+          mapData[i].add(new MapElement(title: "(${i},${j})",));
+        }
       }
-    });
-    for (int i = 0; i < maxTiles.x; i++) {
-      mapData.add([]);
-      for (int j = 0; j < maxTiles.y; j++) {
-        mapData[i].add(new MapElement(title: "(${i},${j})",));
-      }
+    }
+    else {
+      createNewCrop(mapBackground!, context);
     }
   }
 
