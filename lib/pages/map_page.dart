@@ -52,34 +52,12 @@ class _MapPage extends State<MapPage> {
 
   void initialSetup(BuildContext context) {
     if (this.setupDone) {
-      ImageFunctions.decodeAsset(mapPath).then((value) {
-        mapBackground = value;
-        if (value != null) {
-          tileSize =
-          new DVec2(value.width / (maxTiles.x), value.height / (maxTiles.y));
-          createNewCrop(value, context);
-          setupDone = true;
-        }
-      });
-      for (int i = 0; i < maxTiles.x; i++) {
-        mapData.add([]);
-        for (int j = 0; j < maxTiles.y; j++) {
-          mapData[i].add(new MapElement(title: "(${i},${j})",));
-        }
-      }
-    }
-    else {
       createNewCrop(mapBackground!, context);
     }
   }
 
   Widget showImage() {
     if (this.doneLoading) {
-      /*return CustomPaint(
-        child: Container(),
-        painter: ImageEditor(image: mapBackground!, point: point, maxTiles: maxTiles, dispSize: dispTiles)
-      );*/
-      //return Image.memory(dispImage!);
       return CustomPaint(
         painter: UiImagePaint(image: displayImage!),
       );
@@ -107,22 +85,32 @@ class _MapPage extends State<MapPage> {
     );
 
     tmp = img.copyResize(tmp, width: MediaQuery.of(context).size.width.floor());
-    
-    //img.Image tmp = img.copyCrop(image, x: 0, y: 0, width: 100, height: 100);
 
     ImageFunctions.convertImageToFlutterUi(tmp).then((value) {
       setState(() {
-        //dispImage = Uint8List.view(pngBytes!.buffer);
         displayImage = value;
         doneLoading = true;
       });
     });
-    //final pngBytes = await tmp2.toByteData(format: ImageByteFormat.png);
-    /*setState(() {
-      //dispImage = Uint8List.view(pngBytes!.buffer);
-      displayImage = tmp2;
-      doneLoading = true;
-    });*/
+  }
+
+  @override
+  void initState() {
+    ImageFunctions.decodeAsset(mapPath).then((value) {
+      mapBackground = value;
+      if (value != null) {
+        tileSize = new DVec2(value.width / (maxTiles.x), value.height / (maxTiles.y));
+        createNewCrop(value, context);
+        setupDone = true;
+      }
+    });
+    for (int i = 0; i < maxTiles.x; i++) {
+      mapData.add([]);
+      for (int j = 0; j < maxTiles.y; j++) {
+        mapData[i].add(new MapElement(title: "(${i},${j})",));
+      }
+    }
+    super.initState();
   }
 
   @override
