@@ -124,7 +124,6 @@ class _MapPage extends State<MapPage> {
   }
 
   void setTile(Vec2 coords, Widget newTile){
-    print("(${coords.x},${coords.y}): ${newTile}");
     setState(() {
       mapData[coords.x][coords.y] = MapElement(coords: coords, token: newTile, onClick: onClick, setter: setTile);
     });
