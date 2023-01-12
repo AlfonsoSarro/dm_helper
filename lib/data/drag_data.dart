@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 class DragData {
   Vec2 coords;
   Widget token;
-  var clearContent;
 
-  DragData(this.coords, this.token, this.clearContent);
+  DragData(this.coords, this.token);
 }

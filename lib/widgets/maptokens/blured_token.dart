@@ -1,12 +1,12 @@
+import 'package:dm_helper/pages/map_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BlurredToken extends StatelessWidget {
-  Color color;
   Widget child;
 
 
-  BlurredToken({Key? key, required this.color, required this.child}) : super(key: key);
+  BlurredToken({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,8 @@ class BlurredToken extends StatelessWidget {
             border: Border.all(color: Colors.black),
             color: const Color.fromARGB(100, 255, 255, 255),
           ),
-          width: MediaQuery.of(context).size.width/5,
-          height: MediaQuery.of(context).size.width/5,
+          width: MediaQuery.of(context).size.width/MapPage.dispTiles.x,
+          height: MediaQuery.of(context).size.width/MapPage.dispTiles.x,
         )
       ],
     );

@@ -19,6 +19,7 @@ import '../widgets/map_element.dart';
 import '../control/image_functions.dart';
 
 class MapPage extends StatefulWidget {
+  static Vec2 dispTiles = new Vec2(5, 9);
   const MapPage({super.key});
 
   @override
@@ -28,7 +29,6 @@ class MapPage extends StatefulWidget {
 class _MapPage extends State<MapPage> {
   String mapPath = "assets/maps/RoadMapLow.png";
   Vec2 maxTiles = new Vec2(30, 30);
-  Vec2 dispTiles = new Vec2(5, 9);
   Vec2 point = new Vec2(0,0);
   late DVec2 tileSize;
   img.Image? mapBackground;
@@ -39,18 +39,25 @@ class _MapPage extends State<MapPage> {
   List<int> counter = [0,0,0,0];
   bool setupDone = false;
 
-  List<List<MapElement>> mapData = [];
+  List<List<Widget>> mapData = [];
 
-  List<MapElement> getShowMap() {
-    List<MapElement> out = [];
+  Widget getShowMap() {
+    List<Widget> out = [];
     //print("New Map: (${point.x},${point.y})");
-    for (int y = point.y; y < dispTiles.y + point.y; y++) {
-      for (int x = point.x; x < dispTiles.x + point.x; x++) {
+    for (int y = point.y; y < MapPage.dispTiles.y + point.y; y++) {
+      for (int x = point.x; x < MapPage.dispTiles.x + point.x; x++) {
         out.add(mapData[x][y]);
+        //out.add(Text("${x},${y}"));
       }
     }
     //print("New Map: ${printData(out)}");
-    return out;
+    return GridView(
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: MediaQuery.of(context).size.width/5
+      ),
+      physics: const NeverScrollableScrollPhysics(),
+      children: out,
+    );
   }
   
   String printData(List<MapElement> tmp) {
@@ -93,8 +100,8 @@ class _MapPage extends State<MapPage> {
     img.Image tmp = img.copyCrop(image,
         x: (point.x * tileSize.x).floor(),
         y: (point.y * tileSize.y).floor(),
-        width: (dispTiles.x * tileSize.x).floor(),
-        height: (dispTiles.y * tileSize.y).floor()
+        width: (MapPage.dispTiles.x * tileSize.x).floor(),
+        height: (MapPage.dispTiles.y * tileSize.y).floor()
     );
 
     tmp = img.copyResize(tmp, width: MediaQuery.of(context).size.width.floor());
@@ -107,17 +114,20 @@ class _MapPage extends State<MapPage> {
     });
   }
 
-  Widget onClick(Widget currentToken, Vec2 coords, var clearFunction, var setter) {
-    if (currentToken is EmptyToken) {
-      return MonsterToken(
-        coords: coords,
-        clearContent: clearFunction,
-        setter: setter,
-      );
+  void onClick(Vec2 coord, Widget token) {
+    if (token is EmptyToken) {
+      setTile(coord, MonsterToken(coords: coord));
     }
     else {
-      return EmptyToken(setter: setter, coords: coords,);
+      setTile(coord, EmptyToken(coord));
     }
+  }
+
+  void setTile(Vec2 coords, Widget newTile){
+    print("(${coords.x},${coords.y}): ${newTile}");
+    setState(() {
+      mapData[coords.x][coords.y] = MapElement(coords: coords, token: newTile, onClick: onClick, setter: setTile);
+    });
   }
 
   @override
@@ -133,7 +143,13 @@ class _MapPage extends State<MapPage> {
     for (int i = 0; i < maxTiles.x; i++) {
       mapData.add([]);
       for (int j = 0; j < maxTiles.y; j++) {
-        mapData[i].add(new MapElement(title: "(${i},${j})", coords: new Vec2(i, j), onClick: onClick,));
+        mapData[i].add(new MapElement(
+            coords: new Vec2(i, j),
+            token: new EmptyToken(new Vec2(i, j)),
+            onClick: onClick,
+            setter: setTile)
+        );
+        //mapData[i].add(new EmptyToken(setter: () {}, coords: new Vec2(i, j)));
       }
     }
     super.initState();
@@ -149,18 +165,12 @@ class _MapPage extends State<MapPage> {
           child: Stack(
             children: [
               showImage(),
-              GridView(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: MediaQuery.of(context).size.width/5
-                  ),
-                physics: const NeverScrollableScrollPhysics(),
-                children: getShowMap(),
-              ),
+              getShowMap(),
               GestureDetector(
                 onPanUpdate: (details) {
                   if (details.delta.dx < 0) {
                     setState(() {
-                      if (point.x < maxTiles.x - dispTiles.x && checkSens(0)) {
+                      if (point.x < maxTiles.x - MapPage.dispTiles.x && checkSens(0)) {
                         point.x++;
                       }
                     });
@@ -174,7 +184,7 @@ class _MapPage extends State<MapPage> {
                   }
                   if (details.delta.dy < 0) {
                     setState(() {
-                      if (point.y < maxTiles.y - dispTiles.y && checkSens(2)) {
+                      if (point.y < maxTiles.y - MapPage.dispTiles.y && checkSens(2)) {
                         point.y++;
                       }
                     });
