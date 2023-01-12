@@ -1,4 +1,7 @@
+import 'package:dm_helper/data/drag_data.dart';
 import 'package:dm_helper/data/vec2.dart';
+import 'package:dm_helper/widgets/maptokens/blured_token.dart';
+import 'package:dm_helper/widgets/maptokens/empty_token.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +10,40 @@ import 'package:flutter/material.dart';
 //TODO make draggable
 //TODO give finger the widget on drag
 //TODO move screen when close to edge with the drag
-class MapElement extends StatelessWidget {
+class MapElement extends StatefulWidget {
   String? title = "Hold";
   Vec2 coords;
   var onClick;
 
-  MapElement({Key? key, this.title, required this.coords, required this.onClick}) : super(key: key);
+  MapElement({super.key, this.title, required this.coords, required this.onClick});
+
+  @override
+  State<StatefulWidget> createState() => _MapElement();
+
+}
+
+
+class _MapElement extends State<MapElement> {
+  //_MapElement({Key? key, this.title, required this.coords, required this.onClick}) : super(key: key);
+  late Widget token;
+
+  void clearContent() {
+    setState(() {
+      token = EmptyToken(setter: tokenSetter, coords: widget.coords,);
+    });
+  }
+
+  void tokenSetter(Widget input) {
+    setState(() {
+      token = input;
+    });
+  }
+
+  @override
+  void initState() {
+    token = EmptyToken(setter: tokenSetter, coords: widget.coords,);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +53,18 @@ class MapElement extends StatelessWidget {
         height: MediaQuery.of(context).size.width/5,
         child: GestureDetector(
           onTap: () {
-            onClick(coords.x, coords.y);
+            Widget tmp = widget.onClick(token, widget.coords, clearContent, tokenSetter);
+            setState(() {
+              token = tmp;
+            });
           },
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
-              color: Color.fromARGB(100, 255, 255, 255),
+              color: const Color.fromARGB(100, 255, 255, 255),
             ),
             alignment: Alignment.center,
-            child: Text(title!),
+            child: token
           ),
         )
       ),

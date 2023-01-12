@@ -6,6 +6,8 @@ import 'dart:ui';
 import 'package:dm_helper/data/vec2.dart';
 import 'package:dm_helper/widgets/background.dart';
 import 'package:dm_helper/widgets/loading_screen.dart';
+import 'package:dm_helper/widgets/maptokens/empty_token.dart';
+import 'package:dm_helper/widgets/maptokens/monster_token.dart';
 import 'package:dm_helper/widgets/section_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -37,16 +39,27 @@ class _MapPage extends State<MapPage> {
   List<int> counter = [0,0,0,0];
   bool setupDone = false;
 
-  List<List<Widget>> mapData = [];
+  List<List<MapElement>> mapData = [];
 
-  List<Widget> getShowMap() {
-    List<Widget> out = [];
-
+  List<MapElement> getShowMap() {
+    List<MapElement> out = [];
+    //print("New Map: (${point.x},${point.y})");
     for (int y = point.y; y < dispTiles.y + point.y; y++) {
       for (int x = point.x; x < dispTiles.x + point.x; x++) {
         out.add(mapData[x][y]);
       }
     }
+    //print("New Map: ${printData(out)}");
+    return out;
+  }
+  
+  String printData(List<MapElement> tmp) {
+    String out = "[";
+    
+    tmp.forEach((element) { 
+      out+= "(${element.coords.x},${element.coords.y}) ,";
+    });
+    out+= "]";
     return out;
   }
 
@@ -94,6 +107,19 @@ class _MapPage extends State<MapPage> {
     });
   }
 
+  Widget onClick(Widget currentToken, Vec2 coords, var clearFunction, var setter) {
+    if (currentToken is EmptyToken) {
+      return MonsterToken(
+        coords: coords,
+        clearContent: clearFunction,
+        setter: setter,
+      );
+    }
+    else {
+      return EmptyToken(setter: setter, coords: coords,);
+    }
+  }
+
   @override
   void initState() {
     ImageFunctions.decodeAsset(mapPath).then((value) {
@@ -113,10 +139,6 @@ class _MapPage extends State<MapPage> {
     super.initState();
   }
 
-  Widget? onClick(int x, int y) {
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     initialSetup(context);
@@ -131,8 +153,8 @@ class _MapPage extends State<MapPage> {
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: MediaQuery.of(context).size.width/5
                   ),
+                physics: const NeverScrollableScrollPhysics(),
                 children: getShowMap(),
-                physics: NeverScrollableScrollPhysics(),
               ),
               GestureDetector(
                 onPanUpdate: (details) {
