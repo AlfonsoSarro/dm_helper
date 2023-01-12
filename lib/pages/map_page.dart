@@ -107,10 +107,14 @@ class _MapPage extends State<MapPage> {
     for (int i = 0; i < maxTiles.x; i++) {
       mapData.add([]);
       for (int j = 0; j < maxTiles.y; j++) {
-        mapData[i].add(new MapElement(title: "(${i},${j})",));
+        mapData[i].add(new MapElement(title: "(${i},${j})", coords: new Vec2(i, j), onClick: onClick,));
       }
     }
     super.initState();
+  }
+
+  Widget? onClick(int x, int y) {
+    return null;
   }
 
   @override
