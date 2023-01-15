@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:dm_helper/control/authentication.dart';
+import 'package:dm_helper/data/themes.dart';
 import 'package:flutter/material.dart';
 import '../widgets/filled_button.dart';
 import '../widgets/custom_text_field.dart';
@@ -116,15 +117,17 @@ class _RegisterPage extends State<RegisterPage> {
                       ButtonBar(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            FilledButton(text: "Login",
-                              colorBack: Color.fromRGBO(0, 0, 0, 0.56),
-                              colorText: Color(0xFFFFFFFF),
+                            FilledButton(
+                              text: MyThemes.secondaryText("Login"),
+                              colorBack: Color.fromRGBO(0, 0, 0, 1.0),
                               callback: () {Navigator.pop(context);},
+                              width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10 - 30) / 2,
                             ),
-                            FilledButton(text: 'Register',
+                            FilledButton(
+                              text: MyThemes.primaryText("Register"),
                               colorBack: const Color(0xe5ffd700),
-                              colorText: const Color(0xFF000000),
                               callback: registerFunc,
+                              width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10 - 30) / 2,
                             )
                           ]
                       )

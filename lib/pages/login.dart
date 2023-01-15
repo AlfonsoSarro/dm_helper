@@ -1,3 +1,4 @@
+import 'package:dm_helper/data/themes.dart';
 import 'package:flutter/material.dart';
 import '../control/authentication.dart';
 import '../widgets/filled_button.dart';
@@ -88,15 +89,17 @@ class _LoginPage extends State<LoginPage> {
                 ButtonBar(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      FilledButton(text: 'Login',
-                        colorBack: const Color(0xe5ffd700),
-                        colorText: const Color(0xFF000000),
+                      FilledButton(
+                        text: MyThemes.primaryText("Login"),
+                        colorBack: MyThemes.primary,
                         callback: loginFunc,
+                        width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
                       ),
-                      const FilledButton(text: "Register",
-                        colorBack: Color.fromRGBO(0, 0, 0, 0.56),
-                        colorText: Color(0xFFFFFFFF),
+                      FilledButton(
+                        text: MyThemes.secondaryText("Register"),
+                        colorBack: Color.fromRGBO(0, 0, 0, 1.0),
                         pageToShow: RegisterPage(),
+                        width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
                       )
                     ]
                 )
