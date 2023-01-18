@@ -9,6 +9,7 @@ class AuthManager {
   static const int errWeakPass = 4;
   static const int errEmailExist = 5;
   static const int errFieldEmpty = 6;
+  static late User currentUser;
 
 
   static Future<int> login(String? email, String? pass) async{
@@ -23,6 +24,7 @@ class AuthManager {
           email: email,
           password: pass
       );
+      currentUser = credential.user!;
       return ok;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -50,6 +52,7 @@ class AuthManager {
         password: pass,
       );
       await credential.user?.updateDisplayName(usr);
+      currentUser = credential.user!;
       return ok;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
