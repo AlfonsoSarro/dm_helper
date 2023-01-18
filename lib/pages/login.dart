@@ -84,7 +84,7 @@ class _LoginPage extends State<LoginPage> {
                 ),
                 Visibility(
                   visible: showError,
-                  child: Text(errText, style: const TextStyle(color: Color(0xe5ffd700)),),
+                  child: Text(errText, style: TextStyle(color: MyThemes.primary),),
                 ),
                 ButtonBar(
                     mainAxisSize: MainAxisSize.min,
@@ -97,7 +97,7 @@ class _LoginPage extends State<LoginPage> {
                       ),
                       FilledButton(
                         text: MyThemes.secondaryText("Register"),
-                        colorBack: Color.fromRGBO(0, 0, 0, 1.0),
+                        colorBack: MyThemes.background,
                         pageToShow: RegisterPage(),
                         width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
                       )

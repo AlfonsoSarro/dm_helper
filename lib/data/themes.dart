@@ -20,6 +20,8 @@ class MyThemes {
   
   static Color primary = const Color(0xe5FFD700);
 
+  static Color background = const Color.fromRGBO(0, 0, 0, 1.0);
+
   static Text primaryText(String text) => Text(
     text,
     style: TextStyle(

@@ -112,20 +112,20 @@ class _RegisterPage extends State<RegisterPage> {
                       ),
                       Visibility(
                           visible: showError,
-                          child: Text(errText, style: const TextStyle(color: Color(0xe5ffd700)),),
+                          child: Text(errText, style: TextStyle(color: MyThemes.primary),),
                       ),
                       ButtonBar(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             FilledButton(
                               text: MyThemes.secondaryText("Login"),
-                              colorBack: Color.fromRGBO(0, 0, 0, 1.0),
+                              colorBack: MyThemes.background,
                               callback: () {Navigator.pop(context);},
                               width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10 - 30) / 2,
                             ),
                             FilledButton(
                               text: MyThemes.primaryText("Register"),
-                              colorBack: const Color(0xe5ffd700),
+                              colorBack: MyThemes.primary,
                               callback: registerFunc,
                               width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10 - 30) / 2,
                             )
