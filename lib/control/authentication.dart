@@ -9,6 +9,7 @@ class AuthManager {
   static const int errWeakPass = 4;
   static const int errEmailExist = 5;
   static const int errFieldEmpty = 6;
+  static const int errReqRecentLogin = 7;
   static late User currentUser;
 
 
@@ -65,5 +66,35 @@ class AuthManager {
       return err;
     }
     return err;
+  }
+
+  static Future<void> updatePhoto(String photoName) async{
+    await currentUser.updatePhotoURL(photoName);
+    currentUser = FirebaseAuth.instance.currentUser!;
+  }
+
+  static Future<int> changePass(String oldPass, String newPass) async{
+    int err = await AuthManager.login(currentUser.email, oldPass);
+    if (err != ok) {
+      return err;
+    }
+    try {
+      await FirebaseAuth.instance.currentUser!.updatePassword(newPass);
+      return ok;
+    } on FirebaseException catch (e) {
+      if (e.code == 'weak-password') {
+        return errWeakPass;
+      }
+      /*else if (e.code == 'requires-recent-login'){
+        return errReqRecentLogin;
+      }*/
+      else {
+        return err;
+      }
+    }
+  }
+
+  static Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

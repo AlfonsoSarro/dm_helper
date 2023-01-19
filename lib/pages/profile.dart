@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:dm_helper/control/authentication.dart';
 import 'package:dm_helper/data/themes.dart';
+import 'package:dm_helper/pages/login.dart';
 import 'package:dm_helper/widgets/background.dart';
 import 'package:dm_helper/widgets/custom_text_field.dart';
 import 'package:dm_helper/widgets/filled_button.dart';
 import 'package:dm_helper/widgets/loading_screen.dart';
 import 'package:dm_helper/widgets/token.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +24,68 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePage extends State<ProfilePage> {
   final double profileSize = 230;
   List<Widget>? profiles;
+  Map<String, TextEditingController> textControllers = {
+    "usr" : TextEditingController(),
+    "oPass": TextEditingController(),
+    "nPass": TextEditingController(),
+    "cPass": TextEditingController(),
+  };
+  bool showError = false;
+  String errText = "";
+
+  void selectProfilePic(String profileName) async{
+    await AuthManager.updatePhoto(profileName);
+    loadProfiles();
+  }
+
+  void changePass() async{
+    if (textControllers["oPass"]!.text == "" || textControllers["nPass"]!.text == "" || textControllers["cPass"]!.text == "") {
+      showErrorMessage("Error: There are empty fields");
+      return;
+    }
+    if (textControllers["nPass"]!.text != textControllers["cPass"]!.text) {
+      showErrorMessage("Error: Passwords dont match");
+      return;
+    }
+    else {
+      int err = await AuthManager.changePass(textControllers["oPass"]!.text, textControllers["nPass"]!.text);
+      if (err != AuthManager.ok) {
+        switch (err) {
+          case AuthManager.errWeakPass: {
+            showErrorMessage("Error: Password must be at least 6 characters");
+          }
+          break;
+          case AuthManager.errWrongPass:{
+            showErrorMessage("Error: Incorrect original password");
+          }
+          break;
+          default: {
+            showErrorMessage("Error: Something went wrong");
+          }
+          break;
+        }
+      }
+      else {
+        textControllers["oPass"]!.text = "";
+        textControllers["nPass"]!.text = "";
+        textControllers["cPass"]!.text = "";
+      }
+      return;
+    }
+  }
+
+  void showErrorMessage (String msg) async{
+    setState(() {
+      errText = msg;
+      showError = true;
+    });
+    await Future.delayed(Duration(seconds: 5));
+    if (msg == errText) {
+      setState(() {
+        showError = false;
+      });
+    }
+  }
 
   void loadProfiles() async {
     String profileName = "cleric1.jpg";
@@ -38,7 +103,9 @@ class _ProfilePage extends State<ProfilePage> {
           rim: (userPath == element)? MyThemes.primary : Colors.black,
           imgPath: element,
           size: profileSize,
-          rimWidth: 5));
+          rimWidth: 5,
+          func: selectProfilePic,
+      ));
     });
 
     setState(() {
@@ -48,6 +115,7 @@ class _ProfilePage extends State<ProfilePage> {
 
   @override
   void initState() {
+    textControllers["usr"]?.text = AuthManager.currentUser.displayName!;
     loadProfiles();
   }
 
@@ -57,6 +125,19 @@ class _ProfilePage extends State<ProfilePage> {
       children: <Widget>[
         Background(
           title: "Profile",
+          action: IconButton(
+            icon: Icon(Icons.logout, color: Colors.white,),
+            onPressed: () {
+              AuthManager.logout();
+              Navigator.pushReplacement<void,void>(context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => const LoginPage(),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  )
+              );
+            },
+          ),
           child: Container(
             child: SingleChildScrollView(
               child: Column(
@@ -101,7 +182,7 @@ class _ProfilePage extends State<ProfilePage> {
                           padding: EdgeInsets.fromLTRB(CustomTextField.horizontalPadding, 0, CustomTextField.horizontalPadding, 0),
                           child: Align(alignment: Alignment.centerLeft,child: MyThemes.secondaryText("Username"),),
                         ),
-                        CustomTextField(hint: "Username",)
+                        CustomTextField(hint: "Username", controller: textControllers["usr"],)
                       ],
                     ),
                   ),
@@ -113,9 +194,13 @@ class _ProfilePage extends State<ProfilePage> {
                           padding: EdgeInsets.fromLTRB(CustomTextField.horizontalPadding, 0, CustomTextField.horizontalPadding, 0),
                           child: Align(alignment: Alignment.centerLeft,child: MyThemes.secondaryText("Password"),),
                         ),
-                        CustomTextField(hint: "Old Password", pass: true,),
-                        CustomTextField(hint: "New Password", pass: true,),
-                        CustomTextField(hint: "Confirm Password", pass: true,),
+                        CustomTextField(hint: "Old Password", pass: true, controller: textControllers["oPass"],),
+                        CustomTextField(hint: "New Password", pass: true, controller: textControllers["nPass"],),
+                        CustomTextField(hint: "Confirm Password", pass: true, controller: textControllers["cPass"],),
+                        Visibility(
+                          visible: showError,
+                          child: Text(errText, style: TextStyle(color: MyThemes.primary),),
+                        ),
                         Container(
                           margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
                           child: Align(
@@ -123,6 +208,7 @@ class _ProfilePage extends State<ProfilePage> {
                             child: FilledButton(
                               text: MyThemes.primaryText("Change"),
                               colorBack: MyThemes.primary,
+                              callback: changePass,
                             ),
                           ),
                         ),

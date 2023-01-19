@@ -1,3 +1,4 @@
+import 'package:dm_helper/pages/home.dart';
 import 'package:dm_helper/pages/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const ProfilePage(),
+      home: const LoginPage(),
     );
   }
 }

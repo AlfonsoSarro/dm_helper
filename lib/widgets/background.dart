@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 class Background extends StatelessWidget {
   Widget? child;
   String title;
+  bool goBack;
+  Widget? action;
 
-  Background({Key? key, required this.title, this.child}) : super(key: key);
+  Background({Key? key, required this.title, this.child, this.goBack = false, this.action}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,11 @@ class Background extends StatelessWidget {
                 fontSize: 40
               ),
             ),
+            leading: goBack? IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ): Container(),
+            actions: [(action != null)? action! : Container()],
           ),
           body: child,
           bottomNavigationBar: NavBar(),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../control/authentication.dart';
 import '../widgets/filled_button.dart';
 import '../widgets/custom_text_field.dart';
+import 'home.dart';
 import 'register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -37,6 +38,14 @@ class _LoginPage extends State<LoginPage> {
     int res = await AuthManager.login(controllers["email"]?.text, controllers["pass"]?.text);
     if (res == AuthManager.ok) {
       //Login Successful => route to home page
+      Navigator.pushReplacement<void, void>(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => const HomePage(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          )
+      );
     }
     else {
       if (res == AuthManager.errFieldEmpty) {

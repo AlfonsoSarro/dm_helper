@@ -15,7 +15,8 @@ class Token extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (func != null) {
-          func!();
+          List<String> parts = imgPath.split("/");
+          func!(parts[parts.length-1]);
         }
       },
       child: Container(
