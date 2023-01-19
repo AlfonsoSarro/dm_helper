@@ -19,6 +19,7 @@ class MyThemes {
   );
   
   static Color primary = const Color(0xe5FFD700);
+  static Color separatorLine = const Color.fromARGB(255, 218, 165, 32);
 
   static Color background = const Color.fromRGBO(0, 0, 0, 1.0);
 
