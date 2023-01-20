@@ -117,6 +117,7 @@ class _ProfilePage extends State<ProfilePage> {
   void initState() {
     textControllers["usr"]?.text = AuthManager.currentUser.displayName!;
     loadProfiles();
+    super.initState();
   }
 
   @override
