@@ -78,41 +78,44 @@ class _LoginPage extends State<LoginPage> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('assets/images/Logo.png'),
-                CustomTextField(
-                  hint: "Email",
-                  controller: controllers["email"],
-                ),
-                CustomTextField(
-                  hint: "Password",
-                  pass: true,
-                  controller: controllers["pass"],
-                ),
-                Visibility(
-                  visible: showError,
-                  child: Text(errText, style: TextStyle(color: MyThemes.primary),),
-                ),
-                ButtonBar(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      FilledButton(
-                        text: MyThemes.primaryText("Login"),
-                        colorBack: MyThemes.primary,
-                        callback: loginFunc,
-                        width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
-                      ),
-                      FilledButton(
-                        text: MyThemes.secondaryText("Register"),
-                        colorBack: MyThemes.background,
-                        pageToShow: RegisterPage(),
-                        width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
-                      )
-                    ]
-                )
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset('assets/images/Logo.png'),
+                  CustomTextField(
+                    hint: "Email",
+                    controller: controllers["email"],
+                  ),
+                  CustomTextField(
+                    hint: "Password",
+                    pass: true,
+                    controller: controllers["pass"],
+                  ),
+                  Visibility(
+                    visible: showError,
+                    child: Text(errText, style: TextStyle(color: MyThemes.primary),),
+                  ),
+                  ButtonBar(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        FilledButton(
+                          text: MyThemes.primaryText("Login"),
+                          colorBack: MyThemes.primary,
+                          callback: loginFunc,
+                          width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
+                        ),
+                        FilledButton(
+                          text: MyThemes.secondaryText("Register"),
+                          colorBack: MyThemes.background,
+                          pageToShow: RegisterPage(),
+                          width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
+                        )
+                      ]
+                  )
+                ],
+              ),
             ),
           ),
         )
