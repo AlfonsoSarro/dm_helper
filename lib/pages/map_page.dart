@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:dm_helper/data/map-data.dart';
 import 'package:dm_helper/data/vec2.dart';
 import 'package:dm_helper/widgets/background.dart';
 import 'package:dm_helper/widgets/loading_screen.dart';
@@ -20,14 +21,15 @@ import '../control/image_functions.dart';
 
 class MapPage extends StatefulWidget {
   static Vec2 dispTiles = new Vec2(5, 9);
-  const MapPage({super.key});
+  MapData mapData;
+  MapPage({super.key, required this.mapData});
 
   @override
   State<MapPage> createState() => _MapPage();
 }
 
 class _MapPage extends State<MapPage> {
-  String mapPath = "assets/maps/RoadMapLow.png";
+  String mapPath = "";
   Vec2 maxTiles = new Vec2(30, 30);
   Vec2 point = new Vec2(0,0);
   late DVec2 tileSize;
@@ -131,6 +133,8 @@ class _MapPage extends State<MapPage> {
 
   @override
   void initState() {
+    mapPath = widget.mapData.mapPath;
+    maxTiles = widget.mapData.size;
     ImageFunctions.decodeAsset(mapPath).then((value) {
       mapBackground = value;
       if (value != null) {
@@ -161,6 +165,7 @@ class _MapPage extends State<MapPage> {
       children: <Widget>[
         Background(
           title: "Map",
+          goBack: true,
           child: Stack(
             children: [
               showImage(),

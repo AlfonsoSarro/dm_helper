@@ -1,5 +1,6 @@
 import 'package:dm_helper/data/map-data.dart';
 import 'package:dm_helper/data/themes.dart';
+import 'package:dm_helper/pages/map_page.dart';
 import 'package:dm_helper/widgets/lists/list_back.dart';
 import 'package:dm_helper/widgets/token.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,8 +12,15 @@ class SessionList extends StatelessWidget {
   double width;
   SessionList ({Key? key, required this.mapData, required this.width, required this.height}): super (key: key);
 
-  void onTap() {
-
+  void onTap(BuildContext context) {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) => MapPage(mapData: mapData,),
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+        )
+    );
   }
 
   void onDelete() {
@@ -23,7 +31,9 @@ class SessionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-        onTap: onTap,
+        onTap: () {
+          onTap(context);
+        },
         child: ListBack(
           width: width,
           height: height,
