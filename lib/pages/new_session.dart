@@ -53,7 +53,7 @@ class _NewSessionPage extends State<NewSessionPage> {
     }
     else {
       MapData data = MapData(textControllers["title"]!.text, textControllers["desc"]!.text, selectedPath);
-      print(data.toJson());
+      //print(data.toJson());
       CloudStorage.uploadMap(data);
       Navigator.pushReplacement<void, void>(
           context,
@@ -91,7 +91,6 @@ class _NewSessionPage extends State<NewSessionPage> {
       children: <Widget>[
         Background(
           title: "Add Session",
-          goBack: true,
           child: Container(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
