@@ -12,7 +12,6 @@ import 'package:dm_helper/widgets/maptokens/monster_token.dart';
 import 'package:dm_helper/widgets/section_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:image/image.dart' as flutt;
 import 'dart:ui' as ui;
 import 'package:image/image.dart' as img;
 

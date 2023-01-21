@@ -54,7 +54,7 @@ class _NewSessionPage extends State<NewSessionPage> {
     else {
       MapData data = MapData(textControllers["title"]!.text, textControllers["desc"]!.text, selectedPath);
       //print(data.toJson());
-      CloudStorage.uploadMap(data);
+      await CloudStorage.uploadMap(data);
       Navigator.pushReplacement<void, void>(
           context,
           PageRouteBuilder(
