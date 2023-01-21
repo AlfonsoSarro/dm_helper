@@ -1,13 +1,17 @@
 import 'dart:convert';
 
+import 'package:dm_helper/control/cloud_storage.dart';
 import 'package:dm_helper/widgets/background.dart';
+import 'package:dm_helper/widgets/filled_button.dart';
 import 'package:dm_helper/widgets/loading_screen.dart';
 import 'package:dm_helper/widgets/mapSelect.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
+import '../data/map-data.dart';
 import '../data/themes.dart';
 import '../widgets/custom_text_field.dart';
+import 'home.dart';
 
 class NewSessionPage extends StatefulWidget {
   const NewSessionPage({super.key});
@@ -19,6 +23,8 @@ class NewSessionPage extends StatefulWidget {
 class _NewSessionPage extends State<NewSessionPage> {
   final double imgSize = 180;
   late String selectedPath;
+  bool showError = false;
+  String errText = "";
   Iterable<String> paths = [];
   Map<String, TextEditingController> textControllers = {
     "title": TextEditingController(),
@@ -39,6 +45,38 @@ class _NewSessionPage extends State<NewSessionPage> {
     setState(() {
       selectedPath = newPath;
     });
+  }
+  
+  void createSession() async{
+    if (textControllers["title"]!.text == "") {
+      showErrorMessage("Error: the title must not be empty");
+    }
+    else {
+      MapData data = MapData(textControllers["title"]!.text, textControllers["desc"]!.text, selectedPath);
+      print(data.toJson());
+      CloudStorage.uploadMap(data);
+      Navigator.pushReplacement<void, void>(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => const HomePage(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          )
+      );
+    }
+  }
+
+  void showErrorMessage (String msg) async{
+    setState(() {
+      errText = msg;
+      showError = true;
+    });
+    await Future.delayed(Duration(seconds: 5));
+    if (msg == errText) {
+      setState(() {
+        showError = false;
+      });
+    }
   }
 
   @override
@@ -71,8 +109,12 @@ class _NewSessionPage extends State<NewSessionPage> {
                       ],
                     ),
                   ),
+                  Visibility(
+                    visible: showError,
+                    child: Text(errText, style: TextStyle(color: MyThemes.primary),),
+                  ),
                   Container(
-                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 5),
                     child: Column(
                       children: [
                         Container(
@@ -85,13 +127,14 @@ class _NewSessionPage extends State<NewSessionPage> {
                   ),
                   (paths.isNotEmpty)?
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    margin: EdgeInsets.only(bottom: 10),
                     child: Column(
                       children: [
                         Container(
                           color: MyThemes.separatorLine,
                           height: 1,
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
                           width: MediaQuery.of(context).size.width *8/9,
                         ),
                         Container(
@@ -115,12 +158,23 @@ class _NewSessionPage extends State<NewSessionPage> {
                         Container(
                           color: MyThemes.separatorLine,
                           height: 1,
-                          margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
                           width: MediaQuery.of(context).size.width *8/9,
                         )
                       ],
                     ),
                   ): Container(),
+                  Container(
+                    padding: EdgeInsets.only(
+                      bottom: 30
+                    ),
+                    child: FilledButton(
+                      text: MyThemes.primaryText("Create"),
+                      colorBack: MyThemes.primary,
+                      width: MediaQuery.of(context).size.width/3,
+                      callback: createSession,
+                    ),
+                  )
                 ],
               ),
             ),

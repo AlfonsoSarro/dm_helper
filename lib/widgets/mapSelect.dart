@@ -13,6 +13,10 @@ class MapSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(
+        left: 10,
+        right: 10,
+      ),
       padding: EdgeInsets.fromLTRB(rim-1, rim, rim-1, rim),
       color: (selected)? MyThemes.primary : MyThemes.background,
       child: GestureDetector(
