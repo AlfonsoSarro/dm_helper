@@ -49,7 +49,13 @@ class CloudStorage {
   static Future<MapData> getMap(String mapUrl) async{
     String rawData = await getJsonFromUrl(mapUrl);
     var jsonRes = jsonDecode(rawData);
-    return MapData.fromJson(jsonRes);
+    var out = MapData.fromJson(jsonRes);
+    return out;
+  }
+
+  static Future<void> deleteMap(MapData mapData) async {
+    var childRef = storageRef.child("${AuthManager.currentUser.uid}/${mapData.id}.json");
+    await childRef.delete();
   }
 
 }

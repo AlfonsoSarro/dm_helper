@@ -19,6 +19,9 @@ class _HomePage extends State<HomePage> {
   List<MapData> maps = [];
 
   void getUserMaps() async {
+    setState(() {
+      maps = [];
+    });
     List<MapData> tmp = await CloudStorage.getAllMaps();
     setState(() {
       maps = tmp;
@@ -47,14 +50,15 @@ class _HomePage extends State<HomePage> {
                   child: SessionList(
                       mapData: maps[index],
                       width: MediaQuery.of(context).size.width * 8/9,
-                      height: 100
+                      height: 100,
+                      refFunc: getUserMaps,
                   ),
                 );
               }
             ),
           ),
         ),
-        LoadingScreen(visible: (maps.length == 0),),
+        LoadingScreen(visible: false,),
       ],
     );
   }

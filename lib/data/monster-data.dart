@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dm_helper/data/vec2.dart';
 
 class MonsterData {
@@ -9,14 +11,24 @@ class MonsterData {
   MonsterData(this.index, this.pos, this.imgUrl);
 
   factory MonsterData.fromJson(Map<String, dynamic> parsedJson){
-    return MonsterData(parsedJson["index"], parsedJson["pos"], parsedJson["imgUrl"]);
+    String imgLink = noImgFound;
+    if (parsedJson["imgUrl"] != null) {
+      imgLink = parsedJson["imgUrl"];
+    }
+    else {
+      print(parsedJson["index"]);
+    }
+    return MonsterData(parsedJson["index"], Vec2.fromJson(parsedJson["pos"]), imgLink);
   }
 
-  static List<MonsterData> fromJsonList(String rawData){
+  static List<MonsterData> fromJsonList(List<dynamic> rawData){
+    List<MonsterData> out = [];
 
-    print(rawData);
+    rawData.forEach((element) {
+      out.add(MonsterData.fromJson(element));
+    });
 
-    return [];
+    return out;
   }
 
   Map toJson() => {

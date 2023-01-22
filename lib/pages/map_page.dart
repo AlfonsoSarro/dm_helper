@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:dm_helper/control/cloud_storage.dart';
 import 'package:dm_helper/data/map-data.dart';
 import 'package:dm_helper/data/monster-data.dart';
 import 'package:dm_helper/data/vec2.dart';
@@ -22,7 +23,8 @@ import '../control/image_functions.dart';
 class MapPage extends StatefulWidget {
   static Vec2 dispTiles = new Vec2(5, 9);
   MapData mapData;
-  MapPage({super.key, required this.mapData});
+  Function refreshFunc;
+  MapPage({super.key, required this.mapData, required this.refreshFunc});
 
   @override
   State<MapPage> createState() => _MapPage();
@@ -35,7 +37,7 @@ class _MapPage extends State<MapPage> {
   late DVec2 tileSize;
   img.Image? mapBackground;
   Uint8List? dispImage;
-  late ui.Image displayImage;
+  ui.Image? displayImage;
   bool doneLoading = false;
   int sensitivity = 10;
   List<int> counter = [0,0,0,0];
@@ -130,10 +132,23 @@ class _MapPage extends State<MapPage> {
     }
   }
 
+  //Function to set a particular tile to the widget provided
   void setTile(Vec2 coords, Widget newTile){
     setState(() {
       mapData[coords.x][coords.y] = MapElement(coords: coords, token: newTile, onClick: onClick, setter: setTile);
     });
+  }
+
+  Future<void> leave() async{
+    await CloudStorage.uploadMap(widget.mapData);
+    widget.refreshFunc();
+  }
+
+  @override
+  void dispose() {
+    displayImage = null;
+    leave();
+    super.dispose();
   }
 
   @override

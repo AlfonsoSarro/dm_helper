@@ -41,7 +41,7 @@ class MapData {
         description: parsedJson["description"].toString(),
         mapPath: parsedJson["mapPath"].toString(),
         size: Vec2.fromJson(parsedJson["size"]),
-        data: MonsterData.fromJsonList(parsedJson["data"].toString())
+        data: MonsterData.fromJsonList(parsedJson["data"] as List)
     );
   }
 

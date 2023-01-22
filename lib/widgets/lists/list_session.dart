@@ -1,3 +1,4 @@
+import 'package:dm_helper/control/cloud_storage.dart';
 import 'package:dm_helper/data/map-data.dart';
 import 'package:dm_helper/data/themes.dart';
 import 'package:dm_helper/pages/map_page.dart';
@@ -10,21 +11,23 @@ class SessionList extends StatelessWidget {
   MapData mapData;
   double height;
   double width;
-  SessionList ({Key? key, required this.mapData, required this.width, required this.height}): super (key: key);
+  Function refFunc;
+  SessionList ({Key? key, required this.mapData, required this.width, required this.height, required this.refFunc}): super (key: key);
 
   void onTap(BuildContext context) {
     Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation1, animation2) => MapPage(mapData: mapData,),
+          pageBuilder: (context, animation1, animation2) => MapPage(mapData: mapData, refreshFunc: refFunc,),
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
         )
     );
   }
 
-  void onDelete() {
-
+  void onDelete() async {
+    await CloudStorage.deleteMap(mapData);
+    refFunc();
   }
 
   @override
