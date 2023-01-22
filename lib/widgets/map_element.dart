@@ -47,8 +47,11 @@ class MapElement extends StatelessWidget {
               },
               onAccept: (DragData data) {
                 //TODO Might need to check type of token
-                setter(data.coords, EmptyToken(data.coords));
-                setter(coords, MonsterToken(coords: coords));
+                if (token is EmptyToken) {
+                  setter(data.data.pos, EmptyToken(data.data.pos));
+                  data.data.pos = coords;
+                  setter(coords, MonsterToken(data: data.data,));
+                }
               },
             ),
           ],

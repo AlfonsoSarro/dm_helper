@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:dm_helper/data/map-data.dart';
+import 'package:dm_helper/data/monster-data.dart';
 import 'package:dm_helper/data/vec2.dart';
 import 'package:dm_helper/widgets/background.dart';
 import 'package:dm_helper/widgets/loading_screen.dart';
@@ -115,9 +116,14 @@ class _MapPage extends State<MapPage> {
     });
   }
 
+  //Function that gets executed when a squere is clicked
+  //  token: the squere clicked
+  //  coord: the Vec2 of the position of the click
   void onClick(Vec2 coord, Widget token) {
     if (token is EmptyToken) {
-      setTile(coord, MonsterToken(coords: coord));
+      //TODO: hff the data is what u need to pass to place something in the grid
+      MonsterData data = MonsterData("aboleth", coord, MonsterData.noImgFound);
+      setTile(coord, MonsterToken(data: data,));
     }
     else {
       setTile(coord, EmptyToken(coord));
@@ -154,6 +160,10 @@ class _MapPage extends State<MapPage> {
         //mapData[i].add(new EmptyToken(setter: () {}, coords: new Vec2(i, j)));
       }
     }
+    print(widget.mapData.data);
+    widget.mapData.data.forEach((element) {
+      mapData[element.pos.x][element.pos.y] = MapElement(coords: element.pos, token: MonsterToken(data: element), onClick: onClick, setter: setTile);
+    });
     super.initState();
   }
 
