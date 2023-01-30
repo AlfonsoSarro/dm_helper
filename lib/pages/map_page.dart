@@ -7,6 +7,7 @@ import 'package:dm_helper/control/cloud_storage.dart';
 import 'package:dm_helper/data/map-data.dart';
 import 'package:dm_helper/data/monster-data.dart';
 import 'package:dm_helper/data/vec2.dart';
+import 'package:dm_helper/pages/monster_info.dart';
 import 'package:dm_helper/widgets/background.dart';
 import 'package:dm_helper/widgets/loading_screen.dart';
 import 'package:dm_helper/widgets/maptokens/empty_token.dart';
@@ -19,6 +20,8 @@ import 'package:image/image.dart' as img;
 
 import '../widgets/map_element.dart';
 import '../control/image_functions.dart';
+
+import 'add_monster.dart';
 
 class MapPage extends StatefulWidget {
   static Vec2 dispTiles = new Vec2(5, 9);
@@ -126,8 +129,24 @@ class _MapPage extends State<MapPage> {
       //TODO: hff the data is what u need to pass to place something in the grid
       MonsterData data = MonsterData("aboleth", coord, MonsterData.noImgFound);
       setTile(coord, MonsterToken(data: data,));
+      Navigator.pushReplacement<void, void>(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => const AddMonsterPage(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          )
+      );
     }
     else {
+      Navigator.pushReplacement<void, void>(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => const MonsterInfoPage(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          )
+      );
       setTile(coord, EmptyToken(coord));
     }
   }
