@@ -5,6 +5,7 @@ import 'package:dm_helper/data/themes.dart';
 import 'package:flutter/material.dart';
 import '../widgets/filled_button.dart';
 import '../widgets/custom_text_field.dart';
+import 'home.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -41,6 +42,14 @@ class _RegisterPage extends State<RegisterPage> {
     int res = await AuthManager.register(controllers["username"]?.text, controllers["email"]?.text, controllers["pass"]?.text, controllers["confirm"]?.text);
     if (res == AuthManager.ok) {
       //Login Successful => route to home page
+      Navigator.pushReplacement<void, void>(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => const HomePage(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          )
+      );
     }
     else {
       if (res == AuthManager.errFieldEmpty) {
