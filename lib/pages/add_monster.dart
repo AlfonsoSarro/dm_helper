@@ -40,7 +40,7 @@ class _AddMonsterPage extends State<AddMonsterPage> {
     Map<String, dynamic> detailedResponseJson = json.decode(detailedResponse.body.toString());
     String imageUrl;
     if(detailedResponseJson["image"] == null) {
-      imageUrl = "noImgFound";
+      imageUrl = "https://www.shutterstock.com/image-vector/no-image-photography-vector-icon-260nw-1736619599.jpg";
     }
     else {
       imageUrl = "https://www.dnd5eapi.co" + detailedResponseJson["image"];

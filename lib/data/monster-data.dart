@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dm_helper/data/vec2.dart';
 
 class MonsterData {
@@ -15,9 +13,6 @@ class MonsterData {
     String imgLink = noImgFound;
     if (parsedJson["imgUrl"] != null) {
       imgLink = parsedJson["imgUrl"];
-    }
-    else {
-      print(parsedJson["index"]);
     }
     return MonsterData(parsedJson["index"], Vec2.fromJson(parsedJson["pos"]), imgLink, parsedJson["name"]);
   }
