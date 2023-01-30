@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui';
+
 
 import 'package:dm_helper/control/cloud_storage.dart';
 import 'package:dm_helper/data/map-data.dart';
@@ -129,7 +128,7 @@ class _MapPage extends State<MapPage> {
       //TODO: hff the data is what u need to pass to place something in the grid
       MonsterData data = MonsterData("aboleth", coord, MonsterData.noImgFound);
       setTile(coord, MonsterToken(data: data,));
-      Navigator.pushReplacement<void, void>(
+      Navigator.push(
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation1, animation2) => const AddMonsterPage(),
@@ -139,7 +138,7 @@ class _MapPage extends State<MapPage> {
       );
     }
     else {
-      Navigator.pushReplacement<void, void>(
+      Navigator.push(
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation1, animation2) => const MonsterInfoPage(),
