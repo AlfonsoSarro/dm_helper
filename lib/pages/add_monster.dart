@@ -12,7 +12,8 @@ import '../data/monster-data.dart';
 
 class AddMonsterPage extends StatefulWidget {
   Vec2 coords;
-  AddMonsterPage({super.key, required this.coords});
+  Function addMonster;
+  AddMonsterPage({super.key, required this.coords, required this.addMonster});
 
   @override
   State<AddMonsterPage> createState() => _AddMonsterPage();
@@ -42,7 +43,7 @@ class _AddMonsterPage extends State<AddMonsterPage> {
       imageUrl = "noImgFound";
     }
     else {
-      imageUrl = detailedResponseJson["image"];
+      imageUrl = "https://www.dnd5eapi.co" + detailedResponseJson["image"];
     }
     MonsterData newMonster = MonsterData(index, widget.coords, imageUrl, detailedResponseJson["name"]);
     setState(() {
@@ -51,7 +52,11 @@ class _AddMonsterPage extends State<AddMonsterPage> {
   }
 
   Widget printMonster(MonsterData monsterData) {
-    return Container(
+    return GestureDetector(
+      onTap: (){
+        widget.addMonster(monsterData);
+        Navigator.of(context).pop();
+      },
       child: MyThemes.primaryText(monsterData.index)
     );
   }
@@ -67,6 +72,7 @@ class _AddMonsterPage extends State<AddMonsterPage> {
     return Stack(
       children: <Widget>[
         Background(title: "Add Monster",
+          goBack: true,
           child: Container(
             alignment: Alignment.center,
             child: ListView.builder(

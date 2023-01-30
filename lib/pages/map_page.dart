@@ -131,7 +131,7 @@ class _MapPage extends State<MapPage> {
       Navigator.push(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => AddMonsterPage(coords: coord,),
+            pageBuilder: (context, animation1, animation2) => AddMonsterPage(coords: coord,addMonster: addMonster,),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero,
           )
@@ -148,6 +148,12 @@ class _MapPage extends State<MapPage> {
       );
       setTile(coord, EmptyToken(coord));
     }
+  }
+
+  void addMonster(MonsterData monsterData) {
+    setTile(monsterData.pos, MonsterToken(data: monsterData,));
+    widget.mapData.data.add(monsterData);
+    CloudStorage.uploadMap(widget.mapData);
   }
 
   //Function to set a particular tile to the widget provided
