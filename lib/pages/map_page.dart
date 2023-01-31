@@ -125,9 +125,6 @@ class _MapPage extends State<MapPage> {
   //  coord: the Vec2 of the position of the click
   void onClick(Vec2 coord, Widget token) {
     if (token is EmptyToken) {
-      //TODO: hff the data is what u need to pass to place something in the grid
-      //MonsterData data = MonsterData("aboleth", coord, MonsterData.noImgFound, "Aboleth");
-      //setTile(coord, MonsterToken(data: data,));
       Navigator.push(
           context,
           PageRouteBuilder(
@@ -138,10 +135,11 @@ class _MapPage extends State<MapPage> {
       );
     }
     else {
+      MonsterToken monsterToken = token as MonsterToken;
       Navigator.push(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => const MonsterInfoPage(),
+            pageBuilder: (context, animation1, animation2) => MonsterInfoPage(coords: coord, monsterIndex: monsterToken.data.index,),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero,
           )

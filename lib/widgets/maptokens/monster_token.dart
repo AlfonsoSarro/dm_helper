@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 class MonsterToken extends StatelessWidget {
   MonsterData data;
 
-
   MonsterToken({Key? key, required this.data}) : super(key: key);
 
   @override
