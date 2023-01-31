@@ -6,15 +6,18 @@ class MonsterData {
   Vec2 pos;
   String imgUrl;
   String name;
+  int hp;
+  int ac;
+  int cr;
 
-  MonsterData(this.index, this.pos, this.imgUrl, this.name);
+  MonsterData(this.index, this.pos, this.imgUrl, this.name, this.hp, this.ac, this.cr);
 
   factory MonsterData.fromJson(Map<String, dynamic> parsedJson){
     String imgLink = noImgFound;
     if (parsedJson["imgUrl"] != null) {
       imgLink = parsedJson["imgUrl"];
     }
-    return MonsterData(parsedJson["index"], Vec2.fromJson(parsedJson["pos"]), imgLink, parsedJson["name"]);
+    return MonsterData(parsedJson["index"], Vec2.fromJson(parsedJson["pos"]), imgLink, parsedJson["name"], parsedJson["hp"], parsedJson["ac"], parsedJson["cr"]);
   }
 
   static List<MonsterData> fromJsonList(List<dynamic> rawData){
@@ -31,6 +34,9 @@ class MonsterData {
     "index": index,
     "pos": pos.toJson(),
     "imgUrl": imgUrl,
-    "name": name
+    "name": name,
+    "hp": hp,
+    "ac": ac,
+    "cr": cr
   };
 }

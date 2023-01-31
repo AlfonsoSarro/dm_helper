@@ -126,8 +126,8 @@ class _MapPage extends State<MapPage> {
   void onClick(Vec2 coord, Widget token) {
     if (token is EmptyToken) {
       //TODO: hff the data is what u need to pass to place something in the grid
-      MonsterData data = MonsterData("aboleth", coord, MonsterData.noImgFound, "Aboleth");
-      setTile(coord, MonsterToken(data: data,));
+      //MonsterData data = MonsterData("aboleth", coord, MonsterData.noImgFound, "Aboleth");
+      //setTile(coord, MonsterToken(data: data,));
       Navigator.push(
           context,
           PageRouteBuilder(

@@ -10,6 +10,14 @@ class Token extends StatelessWidget {
 
   Token({Key? key, required this.rim, required this.imgPath, required this.size, required this.rimWidth, this.func}) : super(key: key);
 
+  Image selectImage(String path) {
+    if(path.startsWith("http")) {
+      return Image.network(imgPath, fit: BoxFit.cover,);
+    }
+    return Image.asset(imgPath, fit: BoxFit.cover,);
+    
+  }
+  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -28,7 +36,7 @@ class Token extends StatelessWidget {
         child: ClipOval(
           child: SizedBox.fromSize(
             size: Size.fromRadius(size/2),
-            child: Image.asset(imgPath, fit: BoxFit.cover,),
+            child: selectImage(imgPath),
           ),
         ),
       ),

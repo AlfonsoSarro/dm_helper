@@ -4,7 +4,6 @@ import 'package:dm_helper/data/themes.dart';
 import 'package:dm_helper/pages/map_page.dart';
 import 'package:dm_helper/widgets/lists/list_back.dart';
 import 'package:dm_helper/widgets/token.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SessionList extends StatelessWidget {

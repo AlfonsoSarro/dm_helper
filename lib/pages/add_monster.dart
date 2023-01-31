@@ -1,6 +1,7 @@
 import 'package:dm_helper/data/themes.dart';
 import 'package:dm_helper/data/vec2.dart';
 import 'package:dm_helper/widgets/background.dart';
+import 'package:dm_helper/widgets/lists/list_monster.dart';
 import 'package:dm_helper/widgets/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +26,10 @@ class _AddMonsterPage extends State<AddMonsterPage> {
 
   Future<void> fetchMonsters() async {
     final response = await http.get(Uri.parse("https://www.dnd5eapi.co/api/monsters"));
-    print(response.body.toString());
+
     Map<String, dynamic> responseJson = json.decode(response.body.toString());
     int numMonsters = responseJson["count"];
-    print(numMonsters);
-    //print(responseJson.toString());
+
     for(int i = 0; i < numMonsters; i++) {
       await createMonster(responseJson["results"][i]["index"]);
     }
@@ -45,7 +45,8 @@ class _AddMonsterPage extends State<AddMonsterPage> {
     else {
       imageUrl = "https://www.dnd5eapi.co" + detailedResponseJson["image"];
     }
-    MonsterData newMonster = MonsterData(index, widget.coords, imageUrl, detailedResponseJson["name"]);
+
+    MonsterData newMonster = MonsterData(index, widget.coords, imageUrl, detailedResponseJson["name"], detailedResponseJson["hit_points"].toInt(), detailedResponseJson["armor_class"][0]["value"], detailedResponseJson["challenge_rating"].toInt());
     setState(() {
       listMonster.add(newMonster);
     });
@@ -79,7 +80,15 @@ class _AddMonsterPage extends State<AddMonsterPage> {
                 padding: EdgeInsets.only(top: 10, bottom: 10),
                 itemCount: listMonster.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return printMonster(listMonster[index]);
+                  return Container(
+                    margin: EdgeInsets.only(top: 5, bottom: 5),
+                    child: ListMonster(
+                      monsterData: listMonster[index],
+                      width: MediaQuery.of(context).size.width * 8/9,
+                      height: 100,
+                      addMonster: widget.addMonster,
+                    ),
+                  );
                 }
             ),
           ),
