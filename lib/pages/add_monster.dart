@@ -23,6 +23,8 @@ class AddMonsterPage extends StatefulWidget {
 class _AddMonsterPage extends State<AddMonsterPage> {
 
   List<MonsterData> listMonster = [];
+  bool done = false;
+  bool leaving = false;
 
   Future<void> fetchMonsters() async {
     final response = await http.get(Uri.parse("https://www.dnd5eapi.co/api/monsters"));
@@ -30,9 +32,10 @@ class _AddMonsterPage extends State<AddMonsterPage> {
     Map<String, dynamic> responseJson = json.decode(response.body.toString());
     int numMonsters = responseJson["count"];
 
-    for(int i = 0; i < numMonsters; i++) {
+    for(int i = 0; i < numMonsters && !leaving; i++) {
       await createMonster(responseJson["results"][i]["index"]);
     }
+    done = true;
   }
 
   Future<void> createMonster(String index) async {
@@ -66,6 +69,13 @@ class _AddMonsterPage extends State<AddMonsterPage> {
   void initState() {
     fetchMonsters();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    leaving = true;
+    while(!done){}
+    super.dispose();
   }
 
   @override
