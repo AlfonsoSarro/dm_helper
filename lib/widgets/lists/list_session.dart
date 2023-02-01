@@ -50,6 +50,7 @@ class SessionList extends StatelessWidget {
                   children: [
                     Token(rim: MyThemes.primary, imgPath: mapData.mapPath, size: height*6/8, rimWidth: 2),
                     Container(
+                      width: MediaQuery.of(context).size.width/3,
                       margin: EdgeInsets.only(left: 10),
                       height: height,
                       child: Column(

@@ -29,6 +29,16 @@ class MyThemes {
       color: Colors.black,
       fontFamily: 'blackchancery',
       fontSize: 20,
+      overflow: TextOverflow.ellipsis,
+    ),
+  );
+
+  static Text primaryTextSizeable(String text, double size) => Text(
+    text,
+    style: TextStyle(
+      color: Colors.black,
+      fontFamily: 'blackchancery',
+      fontSize: size,
     ),
   );
 
@@ -39,5 +49,25 @@ class MyThemes {
       fontFamily: 'blackchancery',
       fontSize: 20,
     ),
+    overflow: TextOverflow.ellipsis,
+  );
+
+  static Text secondaryTextSizeable(String text, double size) => Text(
+    text,
+    style: TextStyle(
+      color: Colors.white,
+      fontFamily: 'blackchancery',
+      fontSize: size,
+    ),
+  );
+
+  static Text secondaryTextMultiline(String text) => Text(
+    text,
+    style: TextStyle(
+      color: Colors.white,
+      fontFamily: 'inter',
+      fontSize: 20,
+    ),
+    overflow: TextOverflow.clip,
   );
 }
