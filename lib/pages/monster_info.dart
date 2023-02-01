@@ -19,8 +19,12 @@ class MonsterInfoPage extends StatefulWidget {
   Vec2 coords;
   MonsterData monster;
   Function delMonster;
+
   MonsterInfoPage(
-      {super.key, required this.coords, required this.monster, required this.delMonster});
+      {super.key,
+      required this.coords,
+      required this.monster,
+      required this.delMonster});
 
   @override
   State<MonsterInfoPage> createState() => _MonsterInfoPage();
@@ -50,7 +54,7 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
 
     setState(() {
       monsterName = responseJson["name"];
-      if(responseJson["image"] != null) {
+      if (responseJson["image"] != null) {
         img = "https://www.dnd5eapi.co" + responseJson["image"];
       }
       ac = responseJson["armor_class"][0]["value"].toString();
@@ -62,21 +66,23 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
       int intelligence = responseJson["intelligence"];
       int wis = responseJson["wisdom"];
       int cha = responseJson["charisma"];
-      if(responseJson["special_abilities"].length == 0) {
+      if (responseJson["special_abilities"].length == 0) {
         desc = "This monster does not have any special abilities.";
-      }
-      else {
-        for(int i = 0; i < responseJson["special_abilities"].length; i++) {
-          desc = desc + "\t\t" + responseJson["special_abilities"][i]["name"] + ": ";
+      } else {
+        for (int i = 0; i < responseJson["special_abilities"].length; i++) {
+          desc = desc +
+              "\t\t" +
+              responseJson["special_abilities"][i]["name"] +
+              ": ";
           desc = desc + responseJson["special_abilities"][i]["desc"] + "\n\n";
         }
       }
-      finalStr = "$str +${(str - 10) ~/ 2}";
-      finalDex = "$dex +${(dex - 10) ~/ 2}";
-      finalCon = "$con +${(con - 10) ~/ 2}";
-      finalIntelligence = "$intelligence +${(intelligence - 10) ~/ 2}";
-      finalWis = "$wis +${(wis - 10) ~/ 2}";
-      finalCha = "$cha +${(cha - 10) ~/ 2}";
+      finalStr = "$str+${(str - 10) ~/ 2}";
+      finalDex = "$dex+${(dex - 10) ~/ 2}";
+      finalCon = "$con+${(con - 10) ~/ 2}";
+      finalIntelligence = "$intelligence+${(intelligence - 10) ~/ 2}";
+      finalWis = "$wis+${(wis - 10) ~/ 2}";
+      finalCha = "$cha+${(cha - 10) ~/ 2}";
     });
   }
 
@@ -91,13 +97,17 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
     return Stack(
       children: <Widget>[
         Background(
+          goBack: true,
           title: monsterName,
           child: SingleChildScrollView(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.network(img),
+                  Container(
+                    padding: EdgeInsets.all(30),
+                    child: Image.network(img),
+                  ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,8 +137,9 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
                                                 child: Image.asset(
                                                     'assets/images/shield.png')),
                                             Center(
-                                                child: MyThemes.primaryTextSizeable(
-                                                    ac, 40)),
+                                                child: MyThemes
+                                                    .primaryTextSizeable(
+                                                        ac, 40)),
                                           ]),
                                         ),
                                       ),
@@ -160,8 +171,9 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
                                                 child: Image.asset(
                                                     'assets/images/heart.png')),
                                             Center(
-                                                child: MyThemes.primaryTextSizeable(
-                                                    hp, 40)),
+                                                child: MyThemes
+                                                    .primaryTextSizeable(
+                                                        hp, 40)),
                                           ]),
                                         ),
                                       ),
@@ -193,8 +205,9 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
                                                 child: Image.asset(
                                                     'assets/images/boot.jpeg')),
                                             Center(
-                                                child: MyThemes.primaryTextSizeable(
-                                                    ac, 40)),
+                                                child: MyThemes
+                                                    .primaryTextSizeable(
+                                                        ac, 40)),
                                           ]),
                                         ),
                                       ),
@@ -386,45 +399,43 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
                               )
                             ]))
                       ]),
-
-                      MyThemes.secondaryText("Description"),
-
-
-               Container(
-                 margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                    width: MediaQuery.of(context).size.width * 8/9,
+                  MyThemes.secondaryText("Description"),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                    width: MediaQuery.of(context).size.width * 8 / 9,
                     decoration: BoxDecoration(
                         gradient: MyThemes.goldGradient,
-                        borderRadius: BorderRadius.all(Radius.circular(50))
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
                     padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                     child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-
-                            color: const Color.fromRGBO(0, 0, 0, 1),
-                            borderRadius: BorderRadius.circular(50),
-                              
-                        ),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(0, 0, 0, 1),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
                       child: MyThemes.secondaryTextMultiline(desc),
                     ),
                   ),
-                  FilledButton(
-                    text: MyThemes.primaryText("Delete"),
-                    colorBack: MyThemes.primary,
-                    callback: () {
-                      widget.delMonster(widget.monster);
-                      Navigator.pop(context);
-                      },
-                    width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
-                  )
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 30),
+                      child: FilledButton(
+                        text: MyThemes.primaryText("Delete"),
+                        colorBack: MyThemes.primary,
+                        callback: () {
+                          widget.delMonster(widget.monster);
+                          Navigator.pop(context);
+                        },
+                        width: (MediaQuery.of(context).size.width -
+                                (CustomTextField.horizontalPadding * 2) -
+                                10) /
+                            2,
+                      ))
                 ]),
           ),
         ),
         LoadingScreen(
           visible: false,
         ),
-
       ],
     );
   }
