@@ -12,12 +12,8 @@ class MapData {
 
   MapData(this.title, this.description, this.mapPath) {
     data = [];
-    size = new Vec2(30, 30); //TODO change the width depending on the map
+    size = new Vec2(30, 30);
     id = Uuid().v4();
-    //TODO ERASE DEBUG
-    data.add(MonsterData("brown-bear", new Vec2(9, 9), "https://angrygolem-games.com/wp-content/uploads/2021/11/Brown-Bear-1024x1024.jpg", "Brown Bear", 2, 2, 2));
-    data.add(MonsterData("aboleth", new Vec2(10, 10), "https://cdn.shopify.com/s/files/1/1066/8352/files/Aboleth_480x480.jpg?v=1631029621", "Aboleth",2 ,2 ,2));
-    data.add(MonsterData("deva", new Vec2(11, 11), MonsterData.noImgFound, "Deva", 1, 1, 1));
   }
 
   MapData.forAllInfo({required this.id, required this.title, required this.description, required this.mapPath, required this.size, required this.data});

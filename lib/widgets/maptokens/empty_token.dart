@@ -15,7 +15,6 @@ class EmptyToken extends StatelessWidget {
       alignment: Alignment.center,
       width: MediaQuery.of(context).size.width/(MapPage.dispTiles.x+1),
       height: MediaQuery.of(context).size.width/(MapPage.dispTiles.x+1),
-      child: Text("(${coords.x},${coords.y})"),
     );
   }
 

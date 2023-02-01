@@ -11,6 +11,7 @@ class SessionList extends StatelessWidget {
   double height;
   double width;
   Function refFunc;
+  BuildContext? context;
   SessionList ({Key? key, required this.mapData, required this.width, required this.height, required this.refFunc}): super (key: key);
 
   void onTap(BuildContext context) {
@@ -29,8 +30,17 @@ class SessionList extends StatelessWidget {
     refFunc();
   }
 
+  void imageTap(String string) {
+    onTap(context!);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
+    if(this.context == null) {
+      this.context = context;
+    }
     return Container(
       child: GestureDetector(
         onTap: () {
@@ -48,7 +58,7 @@ class SessionList extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Token(rim: MyThemes.primary, imgPath: mapData.mapPath, size: height*6/8, rimWidth: 2),
+                    Token(rim: MyThemes.primary, imgPath: mapData.mapPath, size: height*6/8, rimWidth: 2, func: imageTap,),
                     Container(
                       width: MediaQuery.of(context).size.width/3,
                       margin: EdgeInsets.only(left: 10),

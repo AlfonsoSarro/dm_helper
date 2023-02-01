@@ -20,17 +20,17 @@ class MapElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width/MapPage.dispTiles.x,
-      height: MediaQuery.of(context).size.width/MapPage.dispTiles.x,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
-        color: const Color.fromARGB(80, 255, 255, 255),
-      ),
-      child: GestureDetector(
-        onTap: () {
-          onClick(coords, token);
-        },
+    return GestureDetector(
+      onTap: () {
+        onClick(coords, token);
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width/MapPage.dispTiles.x,
+        height: MediaQuery.of(context).size.width/MapPage.dispTiles.x,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black),
+          color: const Color.fromARGB(80, 255, 255, 255),
+        ),
         child: Stack(
           children: [
             token,

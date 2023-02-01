@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import '../data/monster-data.dart';
 import '../data/themes.dart';
 import '../data/vec2.dart';
 import '../widgets/custom_text_field.dart';
@@ -16,10 +17,10 @@ import '../widgets/filled_button.dart';
 
 class MonsterInfoPage extends StatefulWidget {
   Vec2 coords;
-  String monsterIndex;
-
+  MonsterData monster;
+  Function delMonster;
   MonsterInfoPage(
-      {super.key, required this.coords, required this.monsterIndex});
+      {super.key, required this.coords, required this.monster, required this.delMonster});
 
   @override
   State<MonsterInfoPage> createState() => _MonsterInfoPage();
@@ -43,13 +44,15 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
 
   Future<void> fetchMonsterInfo() async {
     final response = await http.get(Uri.parse(
-        "https://www.dnd5eapi.co/api/monsters/${widget.monsterIndex}"));
+        "https://www.dnd5eapi.co/api/monsters/${widget.monster.index}"));
 
     responseJson = json.decode(response.body.toString());
 
     setState(() {
       monsterName = responseJson["name"];
-      img = "https://www.dnd5eapi.co" + responseJson["image"];
+      if(responseJson["image"] != null) {
+        img = "https://www.dnd5eapi.co" + responseJson["image"];
+      }
       ac = responseJson["armor_class"][0]["value"].toString();
       hp = responseJson["hit_points"].toString();
       speed = responseJson["speed"]["walk"].toString();
@@ -409,7 +412,10 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
                   FilledButton(
                     text: MyThemes.primaryText("Delete"),
                     colorBack: MyThemes.primary,
-                    callback: () {Navigator.pop(context);},
+                    callback: () {
+                      widget.delMonster(widget.monster);
+                      Navigator.pop(context);
+                      },
                     width: (MediaQuery.of(context).size.width - (CustomTextField.horizontalPadding*2) - 10) / 2,
                   )
                 ]),
