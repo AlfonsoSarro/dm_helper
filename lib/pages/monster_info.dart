@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import '../data/themes.dart';
 import '../data/vec2.dart';
 
 class MonsterInfoPage extends StatefulWidget {
@@ -31,6 +32,7 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
   String wis = "";
   String cha = "";
   String desc = "";
+  String img = "";
 
 
   Future<void> fetchMonsterInfo() async {
@@ -49,6 +51,7 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
       int = responseJson["intelligence"];
       wis = responseJson["wisdom"];
       cha = responseJson["charisma"];
+      img = "https://www.dnd5eapi.co" + responseJson["image"];
       desc = "uhhhh....";
     });
 
@@ -67,6 +70,23 @@ class _MonsterInfoPage extends State<MonsterInfoPage> {
       children: <Widget>[
         Background(title: monsterName,),
         LoadingScreen(visible: false,),
+        Image.network(img),
+        SizedBox(
+            width: 100,
+            height: 100,
+            child: Container(
+              padding: EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                  color: MyThemes.primary,
+                  shape: BoxShape.circle
+              ),
+              child: ClipOval(
+                child: SizedBox.fromSize(
+                  size: Size.fromRadius(100/2),
+                ),
+              ),
+            )
+        ),
       ],
     );
   }
