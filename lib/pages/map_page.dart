@@ -44,6 +44,7 @@ class _MapPage extends State<MapPage> {
   int sensitivity = 10;
   List<int> counter = [0,0,0,0];
   bool setupDone = false;
+  bool leaving = false;
 
   List<List<Widget>> mapData = [];
 
@@ -112,12 +113,14 @@ class _MapPage extends State<MapPage> {
 
     tmp = img.copyResize(tmp, width: MediaQuery.of(context).size.width.floor());
 
-    ImageFunctions.convertImageToFlutterUi(tmp).then((value) {
-      setState(() {
-        displayImage = value;
-        doneLoading = true;
+    if(mounted) {
+      ImageFunctions.convertImageToFlutterUi(tmp).then((value) {
+        setState(() {
+          displayImage = value;
+          doneLoading = true;
+        });
       });
-    });
+    }
   }
 
   //Function that gets executed when a squere is clicked
@@ -173,6 +176,7 @@ class _MapPage extends State<MapPage> {
 
   @override
   void dispose() {
+    leaving = true;
     displayImage = null;
     leave();
     super.dispose();

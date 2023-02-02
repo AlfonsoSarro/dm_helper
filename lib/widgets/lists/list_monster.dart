@@ -11,14 +11,23 @@ class ListMonster extends StatelessWidget {
   double height;
   double width;
   Function addMonster;
+  BuildContext? context;
   ListMonster ({Key? key, required this.monsterData, required this.width, required this.height, required this.addMonster}): super (key: key);
 
   String setupStats(MonsterData monsterData) {
     return "HP: ${monsterData.hp} AC: ${monsterData.ac} CR: ${monsterData.cr}";
   }
 
+  void setMonster(String data) {
+    addMonster(monsterData);
+    Navigator.pop(context!);
+  }
+
   @override
   Widget build(BuildContext context) {
+    if(this.context == null) {
+      this.context = context;
+    }
     return Container(
       child: GestureDetector(
         onTap: () {
@@ -40,8 +49,11 @@ class ListMonster extends StatelessWidget {
                     Token(rim: MyThemes.primary,
                         imgPath: monsterData.imgUrl,
                         size: height * 6 / 8,
-                        rimWidth: 2),
+                        rimWidth: 2,
+                      func: setMonster,
+                    ),
                     Container(
+                      width: MediaQuery.of(context).size.width/2.1,
                       margin: EdgeInsets.only(left: 10),
                       height: height,
                       child: Column(
