@@ -41,6 +41,7 @@ class _RegisterPage extends State<RegisterPage> {
   void registerFunc() async {
     int res = await AuthManager.register(controllers["username"]?.text, controllers["email"]?.text, controllers["pass"]?.text, controllers["confirm"]?.text);
     if (res == AuthManager.ok) {
+      await AuthManager.login(controllers["email"]?.text, controllers["pass"]?.text);
       //Login Successful => route to home page
       Navigator.pushReplacement<void, void>(
           context,
