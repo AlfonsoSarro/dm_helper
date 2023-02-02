@@ -23,7 +23,6 @@ class AddMonsterPage extends StatefulWidget {
 class _AddMonsterPage extends State<AddMonsterPage> {
 
   List<MonsterData> listMonster = [];
-  bool done = false;
   bool leaving = false;
 
   Future<void> fetchMonsters() async {
@@ -35,7 +34,6 @@ class _AddMonsterPage extends State<AddMonsterPage> {
     for(int i = 0; i < numMonsters && !leaving; i++) {
       await createMonster(responseJson["results"][i]["index"]);
     }
-    done = true;
   }
 
   Future<void> createMonster(String index) async {
@@ -50,9 +48,11 @@ class _AddMonsterPage extends State<AddMonsterPage> {
     }
 
     MonsterData newMonster = MonsterData(index, widget.coords, imageUrl, detailedResponseJson["name"], detailedResponseJson["hit_points"].toInt(), detailedResponseJson["armor_class"][0]["value"], detailedResponseJson["challenge_rating"].toInt());
-    setState(() {
-      listMonster.add(newMonster);
-    });
+    if(!leaving) {
+      setState(() {
+        listMonster.add(newMonster);
+      });
+    }
   }
 
   Widget printMonster(MonsterData monsterData) {
@@ -74,7 +74,6 @@ class _AddMonsterPage extends State<AddMonsterPage> {
   @override
   void dispose() {
     leaving = true;
-    while(!done){}
     super.dispose();
   }
 
